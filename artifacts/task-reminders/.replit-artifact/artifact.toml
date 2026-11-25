@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Task Reminders"
+description = "A customizable task manager with shared labels, flexible global fields, priorities, due dates, and browser reminders."
+version = "1.0.0"
+id = "artifacts/task-reminders"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25478
+
+[services.development]
+run = "pnpm --filter @workspace/task-reminders run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/task-reminders", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/task-reminders/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25478"
+BASE_PATH = "/"
